@@ -8,6 +8,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] int gridHeight;
     [SerializeField] GameObject tilePrefab;
 
+    int tileID = 1;
+
     private void Start()
     {
         GenerateGrid();
@@ -21,6 +23,8 @@ public class GridManager : MonoBehaviour
             {
                 var generatedTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity);
                 generatedTile.name = $"Tile {x},{y}";
+                generatedTile.GetComponent<TileScript>().SetID(tileID);
+                tileID++;
             }
         }
     }
