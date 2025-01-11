@@ -1,39 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    bool redsTurn;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] bool redsTurn;
+    bool currentTurn;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool gameOver;
+    List<int> blueTiles = new List<int>();
+    List<int> redTiles = new List<int>();
+    List<int> checkList;
 
-    public bool GetCurrentTurn()
+    public bool SelectTile(int spotID)
     {
-        bool currentTurn = redsTurn;
-        changeTurn();
+        currentTurn = redsTurn;
+
+        if(redsTurn)
+        {
+            redTiles.Add(spotID);
+            redsTurn = false;
+            checkList = redTiles;
+        }
+        else
+        {
+            blueTiles.Add(spotID);
+            redsTurn = true;
+            checkList = blueTiles;
+        }
+        CheckWin();
 
         return currentTurn;
     }
 
-    void changeTurn()
+    void CheckWin()
     {
-        if(redsTurn)
+        if (
+            //Horizontal
+            (checkList.Contains(1) && checkList.Contains(4) && checkList.Contains(7)) || 
+            (checkList.Contains(2) && checkList.Contains(5) && checkList.Contains(8)) || 
+            (checkList.Contains(3) && checkList.Contains(6) && checkList.Contains(9)) ||
+            
+            //Vertical
+            (checkList.Contains(1) && checkList.Contains(2) && checkList.Contains(3)) ||
+            (checkList.Contains(4) && checkList.Contains(5) && checkList.Contains(6)) ||
+            (checkList.Contains(7) && checkList.Contains(8) && checkList.Contains(9)) ||
+
+            //Diagonal
+            (checkList.Contains(3) && checkList.Contains(5) && checkList.Contains(7)) ||
+            (checkList.Contains(1) && checkList.Contains(5) && checkList.Contains(9))
+            )
         {
-            redsTurn = false;
+            ReportWin();
         }
-        else
+       
+        else if(redTiles.Count + blueTiles.Count == 9)
         {
-            redsTurn = true;
+            ReportTie();
         }
+    }
+
+    void ReportWin()
+    {
+        gameOver = true;
+
+        if (currentTurn == true)
+        {
+            Debug.Log("Red Player Wins");
+        } 
+        else if(currentTurn == false)
+        {
+            Debug.Log("Blue Player Wins");
+        }
+    }
+    
+    void ReportTie()
+    {
+        gameOver = true;
+        Debug.Log("The game has Tied");
     }
 }

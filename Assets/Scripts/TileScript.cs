@@ -9,7 +9,9 @@ public class TileScript : MonoBehaviour
     GameManager gameManager;
 
     bool canClick = true;
-     int spotID;
+
+    [SerializeField] int spotID;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,14 @@ public class TileScript : MonoBehaviour
         tileScript = GetComponent<TileScript>();
         gameManager = FindObjectOfType<GameManager>();
 
+    }
+
+    private void Update()
+    {
+        if(gameManager.gameOver)
+        {
+            canClick = false;
+        }
     }
 
     private void OnMouseExit()
@@ -40,7 +50,7 @@ public class TileScript : MonoBehaviour
         if (canClick)
         {
             canClick = false;
-            if (gameManager.GetCurrentTurn())
+            if (gameManager.SelectTile(spotID))
             {
                 spriteRenderer.color = Color.red;
             }
