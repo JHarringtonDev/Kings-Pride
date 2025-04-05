@@ -9,6 +9,7 @@ public class tileClick : MonoBehaviour
 {
     Image tileImage;
     tileManager squareManager;
+    tilePlayer playerTile;
 
     bool tilePlayed;
 
@@ -16,39 +17,45 @@ public class tileClick : MonoBehaviour
     {
         tileImage = GetComponent<Image>();
         squareManager = FindObjectOfType<tileManager>();
+        playerTile = FindObjectOfType<tilePlayer>();
     }
 
-    public void changeTile()
+    public void HandlePlayerMovement()
     {
-        if(squareManager != null && !tilePlayed)
-        {
-        Debug.Log("clicked");
-            if(squareManager.changeTurn() == true)
-            {
-                tileImage.color = Color.blue;
-            }
-            else
-            {
-                tileImage.color = Color.red;
-            }
-            tilePlayed = true;
-        }
+        playerTile.MoveToSpot(transform.position);
     }
 
-    public void showHoverColor()
-    {
-        if(!tilePlayed)
-        {
-            tileImage.color = Color.gray;
-        }
-    }
-
-    public void RevertTile()
-    {
-
-         if(!tilePlayed)
-        {
-            tileImage.color = Color.white;
-        }
-    }
+    //public void changeTile()
+    //{
+    //    if(squareManager != null && !tilePlayed)
+    //    {
+    //    Debug.Log("clicked");
+    //        if(squareManager.changeTurn() == true)
+    //        {
+    //            tileImage.color = Color.blue;
+    //        }
+    //        else
+    //        {
+    //            tileImage.color = Color.red;
+    //        }
+    //        tilePlayed = true;
+    //    }
+    //}
+    //
+    //public void showHoverColor()
+    //{
+    //    if(!tilePlayed)
+    //    {
+    //        tileImage.color = Color.gray;
+    //    }
+    //}
+    //
+    //public void RevertTile()
+    //{
+    //
+    //     if(!tilePlayed)
+    //    {
+    //        tileImage.color = Color.white;
+    //    }
+    //}
 }
