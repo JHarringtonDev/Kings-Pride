@@ -5,11 +5,22 @@ using UnityEngine;
 public class tilePlayer : MonoBehaviour
 {
 
+    Vector3 playerDestination;
+    float movementProgress = 1;
+    [SerializeField] float moveSpeed;
+
+    private void FixedUpdate()
+    {
+        if (movementProgress < 1)
+        {
+            transform.position = Vector3.Lerp(transform.position, playerDestination, movementProgress);
+            movementProgress += moveSpeed;
+        }
+    }
+
     public void MoveToSpot(Vector3 MovementLocation)
     {
-        for (float i = 0; i <1; i+= 0.00002f)
-        {
-            transform.position = Vector3.Lerp(transform.position, MovementLocation, i);
-        }
+        playerDestination = MovementLocation;
+        movementProgress = 0;
     } 
 }
